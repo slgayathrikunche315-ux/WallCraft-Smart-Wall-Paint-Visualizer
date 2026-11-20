@@ -10,7 +10,7 @@ const designRoutes = require('./routes/designRoutes');
 const app = express();
 
 app.use(cors({
-    origin: 'http://localhost:4200'
+    origin: process.env.FRONTEND_URL || 'http://localhost:4200'
 }));
 
 app.use(express.json({ limit: '15mb' }));

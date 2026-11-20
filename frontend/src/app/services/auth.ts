@@ -7,8 +7,8 @@ import { Observable, tap } from 'rxjs';
 })
 export class Auth {
 
-  private apiUrl = 'http://localhost:5000/api/auth';
-  private designApiUrl = 'http://localhost:5000/api/designs';
+  private apiUrl = 'https://wallcraft-smart-wall-paint-visualizer.onrender.com/api/auth';
+private designApiUrl = 'https://wallcraft-smart-wall-paint-visualizer.onrender.com/api/designs';
 
   constructor(private http: HttpClient) {}
 
