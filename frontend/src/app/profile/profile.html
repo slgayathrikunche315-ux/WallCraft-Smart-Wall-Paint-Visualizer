@@ -1,0 +1,31 @@
+<div class="profile-container">
+
+  <div class="profile-card">
+
+    <button class="back-btn" routerLink="/dashboard">
+      ← Back
+    </button>
+
+    <div class="profile-avatar">
+      {{ userName.charAt(0).toUpperCase() }}
+    </div>
+
+    <h2>My Profile</h2>
+
+    <div class="profile-details">
+
+      <div class="detail-item">
+        <label>Name</label>
+        <p>{{ userName }}</p>
+      </div>
+
+      <div class="detail-item">
+        <label>Email</label>
+        <p>{{ userEmail }}</p>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

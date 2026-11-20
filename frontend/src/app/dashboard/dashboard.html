@@ -1,0 +1,574 @@
+<div class="app-container" [class.sidebar-open]="isSidebarOpen">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" [class.open]="isSidebarOpen">
+
+    <div class="brand">
+      <div class="brand-icon">W</div>
+      <div class="brand-name">WallCraft<span>.</span></div>
+    </div>
+
+    <p class="menu-label">WORKSPACE</p>
+
+    <nav class="nav-menu">
+
+      <a class="nav-item active" routerLink="/dashboard" (click)="closeSidebar()">
+        <span>⌂</span> Dashboard
+      </a>
+
+      <a class="nav-item" routerLink="/profile" (click)="closeSidebar()">
+        <span>👤</span> Profile
+      </a>
+
+      <a class="nav-item" routerLink="/my-designs" (click)="closeSidebar()">
+        <span>▧</span> My Designs
+      </a>
+
+      <a class="nav-item" routerLink="/my-designs" (click)="closeSidebar()">
+        <span>♡</span> Favorites
+      </a>
+
+    </nav>
+
+    <p class="menu-label second-label">TOOLS</p>
+
+    <nav class="nav-menu">
+
+      <a class="nav-item" href="#palette" (click)="closeSidebar()">
+        <span>◉</span> Color Palette
+      </a>
+
+      <a class="nav-item" href="#inspiration" (click)="closeSidebar()">
+        <span>✦</span> Inspiration
+      </a>
+
+    </nav>
+
+    
+<div class="sidebar-bottom">
+
+  <div class="help-card">
+    <div class="help-icon">✦</div>
+    <h4>Need inspiration?</h4>
+    <p>Discover colors that make your house feel like home.</p>
+    <a href="#inspiration">Explore Ideas →</a>
+  </div>
+
+  <!-- USER PROFILE -->
+  <div class="profile">
+
+    <div class="avatar">
+      {{ userName.charAt(0).toUpperCase() }}
+    </div>
+
+    <div class="profile-info">
+      <strong>{{ userName }}</strong>
+      <small>Welcome to WallCraft</small>
+    </div>
+
+    <span class="profile-menu">···</span>
+
+  </div>
+
+  <!-- MOBILE LOGOUT - OUTSIDE PROFILE -->
+  <button class="sidebar-logout mobile-logout" (click)="logout()">
+    ↪ Logout
+  </button>
+
+</div>
+
+
+    
+
+  </aside>
+
+  <div
+    class="sidebar-overlay"
+    *ngIf="isSidebarOpen"
+    (click)="closeSidebar()">
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+
+      <button
+        class="menu-toggle"
+        (click)="toggleSidebar()">
+        ☰
+      </button>
+
+      <div class="breadcrumb">
+        Workspace <span>/</span> Dashboard
+      </div>
+
+      <div class="topbar-right">
+  <button class="logout-btn" (click)="logout()">
+    Logout
+  </button>
+</div>
+
+    </header>
+
+    <!-- HERO BANNER -->
+    <section class="hero-banner">
+
+      <div class="hero-content">
+
+        <p class="eyebrow">YOUR PERSONAL COLOR STUDIO</p>
+
+        <h1>
+          Design Your <span>Dream Home.</span>
+        </h1>
+
+        <p>
+          Transform your walls with beautiful colors.
+          Discover the perfect shade for your space.
+        </p>
+
+        <a href="#upload" class="hero-button">
+          Start Designing →
+        </a>
+
+      </div>
+
+      <div class="hero-decoration">✳</div>
+
+    </section>
+
+    <!-- UPLOAD SECTION -->
+    <section class="upload-section" id="upload">
+
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">START YOUR PROJECT</p>
+          <h2>Bring your room to life</h2>
+        </div>
+      </div>
+
+      <div class="upload-card">
+
+        <div class="upload-content">
+
+          <div class="upload-icon">↥</div>
+
+          <h2>Upload your room photo</h2>
+
+          <p>
+            Choose a picture of your room and experiment
+            with beautiful wall colors.
+          </p>
+
+          <label class="upload-button">
+            ＋ Upload Your Room
+
+            <input
+              type="file"
+              accept="image/png,image/jpeg,image/webp"
+              (change)="onImageSelected($event)"
+              hidden
+            />
+          </label>
+
+          <small>Supports JPG, PNG and WebP</small>
+
+        </div>
+
+        <div class="upload-visual">
+
+          <img
+            *ngIf="uploadedImage"
+            [src]="uploadedImage"
+            alt="Uploaded room"
+          />
+
+          <img
+            *ngIf="!uploadedImage"
+            src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=900&q=85"
+            alt="Room inspiration"
+          />
+
+          <div class="image-badge">
+            {{ uploadedImage ? 'YOUR ROOM' : 'ROOM INSPIRATION' }}
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- STATISTICS -->
+    <section class="stats-grid">
+
+      <div class="stat-card">
+        <div class="stat-icon">▧</div>
+        <div>
+          <p>Total Designs</p>
+          <h2>{{ totalDesigns }}</h2>
+          <small>Your saved creations</small>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">♡</div>
+        <div>
+          <p>Favorite Designs</p>
+          <h2>{{ favoriteDesigns }}</h2>
+          <small>Your favorite looks</small>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon">🎨</div>
+        <div>
+          <p>Colors Explored</p>
+          <h2>{{ colorsExplored }}</h2>
+          <small>Unique shades saved</small>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- WALL EDITOR -->
+    <section class="wall-editor" *ngIf="uploadedImage">
+
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">WALL EDITOR</p>
+          <h2>Select Your Wall Area</h2>
+        </div>
+      </div>
+
+      <div class="editor-card">
+
+        <p class="editor-description">
+          Click on the wall corners to create a selection.
+        </p>
+
+        <canvas
+          #wallCanvas
+          (click)="selectWallPoint($event)">
+        </canvas>
+
+        <div class="editor-buttons">
+
+          <button
+            (click)="closeWallSelection()"
+            [disabled]="wallPoints.length < 3 || selectionClosed">
+            ✓ Finish Selection
+          </button>
+
+          <button
+            (click)="undoLastPoint()"
+            [disabled]="wallPoints.length === 0">
+            ↶ Undo Last Point
+          </button>
+
+          <button
+            (click)="clearWallSelection()"
+            [disabled]="wallPoints.length === 0">
+            ✕ Clear Selection
+          </button>
+
+        </div>
+
+        <p class="editor-help">
+          {{ selectionClosed
+            ? 'Wall area selected. Choose a color and apply paint.'
+            : 'Click at least 3 points to select your wall.' }}
+        </p>
+
+        <div class="paint-controls">
+
+          <h3>Choose Your Wall Color</h3>
+
+          <p class="paint-description">
+            Explore our paint shades or choose your own custom color.
+          </p>
+
+          <div class="paint-colors">
+
+            <button
+              *ngFor="let color of colors"
+              class="paint-color"
+              [style.background]="color.code"
+              [class.selected]="selectedColor === color.code"
+              (click)="chooseColor(color.code)"
+              [title]="color.name">
+            </button>
+
+          </div>
+
+          <div class="custom-color-section">
+
+            <label class="custom-color-label">
+              Custom Color
+            </label>
+
+            <div class="custom-color-picker">
+
+              <input
+                type="color"
+                [value]="selectedColor"
+                (input)="onCustomColorChange($event)"
+              />
+
+              <span>Pick your own shade</span>
+
+            </div>
+
+          </div>
+
+          <div class="selected-color-box">
+
+            <div
+              class="selected-color-preview"
+              [style.background]="selectedColor">
+            </div>
+
+            <div class="selected-color-info">
+              <small>SELECTED COLOR</small>
+              <strong>{{ selectedColor | uppercase }}</strong>
+            </div>
+
+          </div>
+
+          <div class="paint-action-buttons">
+
+            <button
+              class="apply-paint-button"
+              (click)="applyPaint()"
+              [disabled]="!selectionClosed">
+              🎨 Apply Paint
+            </button>
+
+            <button
+              class="reset-design-button"
+              (click)="resetDesign()">
+              ↻ Reset Design
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- BEFORE AFTER -->
+    <section
+      class="comparison-section"
+      *ngIf="showComparison && paintedImage">
+
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">YOUR DESIGN</p>
+          <h2>Before & After</h2>
+        </div>
+      </div>
+
+      <div class="comparison-grid">
+
+        <div class="comparison-card">
+
+          <div class="comparison-image">
+            <img [src]="originalImage" alt="Original room">
+            <span class="comparison-badge">BEFORE</span>
+          </div>
+
+          <h3>Original Room</h3>
+
+        </div>
+
+        <div class="comparison-card">
+
+          <div class="comparison-image">
+            <img [src]="paintedImage" alt="Painted room">
+            <span class="comparison-badge after-badge">AFTER</span>
+          </div>
+
+          <h3>New Paint Design</h3>
+
+        </div>
+
+      </div>
+
+      <div class="download-area">
+
+        <button class="download-button" (click)="downloadDesign()">
+          ↓ Download My Design
+        </button>
+
+        <button class="save-design-button" (click)="saveDesign()">
+          💾 Save My Design
+        </button>
+
+      </div>
+
+    </section>
+
+    <!-- RECENT DESIGNS -->
+    <section class="recent-section">
+
+      <div class="section-heading">
+
+        <div>
+          <p class="eyebrow">YOUR CREATIONS</p>
+          <h2>Recent Designs</h2>
+        </div>
+
+        <button class="view-all" (click)="viewMyDesigns()">
+          View All →
+        </button>
+
+      </div>
+
+      <div *ngIf="isLoadingDesigns" class="empty-state">
+        Loading your designs...
+      </div>
+
+      <div
+        class="recent-grid"
+        *ngIf="!isLoadingDesigns && recentDesigns.length > 0">
+
+        <div class="recent-card" *ngFor="let design of recentDesigns">
+
+          <img
+            [src]="design.paintedImage"
+            alt="Saved room design"
+          />
+
+          <div class="recent-info">
+            <h3>{{ design.designName || 'My Wall Design' }}</h3>
+
+            <span>
+              {{ design.selectedColor }}
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div
+        class="empty-state"
+        *ngIf="!isLoadingDesigns && recentDesigns.length === 0">
+
+        <div>🎨</div>
+
+        <h3>No designs yet</h3>
+
+        <p>Upload your room and create your first design!</p>
+
+      </div>
+
+    </section>
+
+
+    <!-- EXPLORE SHADES -->
+    <section class="palette-section" id="palette">
+
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">EXPLORE SHADES</p>
+          <h2>Colors You'll Love</h2>
+        </div>
+      </div>
+
+      <div class="color-grid">
+
+        <div class="color-card" *ngFor="let color of colors">
+
+          <button
+            class="color-swatch"
+            [style.background]="color.code"
+            [title]="color.name"
+            (click)="chooseColor(color.code)">
+          </button>
+
+          <div class="color-info">
+            <strong>{{ color.name }}</strong>
+            <span>{{ color.code }}</span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- INSPIRATION -->
+    <section class="inspiration-section" id="inspiration">
+
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">DESIGN INSPIRATION</p>
+          <h2>Find Your Room's Mood</h2>
+        </div>
+      </div>
+
+      <div class="inspiration-grid">
+
+        <div class="inspiration-card">
+
+          <img
+            src="https://images.pexels.com/photos/2029667/pexels-photo-2029667.jpeg"
+            alt="Minimal living room"
+          />
+
+          <div class="inspiration-overlay">
+            <span>01</span>
+            <h3>Calm & Minimal</h3>
+          </div>
+
+        </div>
+
+        <div class="inspiration-card">
+
+          <img
+            src="https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?auto=format&fit=crop&w=700&q=80"
+            alt="Natural interior"
+          />
+
+          <div class="inspiration-overlay">
+            <span>02</span>
+            <h3>Nature Inspired</h3>
+          </div>
+
+        </div>
+
+        <div class="inspiration-card">
+
+          <img
+            src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=700&q=80"
+            alt="Elegant interior"
+          />
+
+          <div class="inspiration-overlay">
+            <span>03</span>
+            <h3>Warm & Elegant</h3>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+
+      <span>WallCraft · Smart Wall Paint Visualizer</span>
+
+      <span>Designed for your dream home ✳</span>
+
+    </footer>
+
+  </main>
+
+</div>

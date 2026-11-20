@@ -1,0 +1,85 @@
+<div class="login-container">
+  <div class="login-card">
+
+    <h1>WallCraft</h1>
+    <h2>Welcome Back!</h2>
+    <p>Login to continue designing your dream walls.</p>
+
+    <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)" novalidate>
+
+      <!-- Email -->
+      <input
+        type="email"
+        name="email"
+        [(ngModel)]="email"
+        #emailField="ngModel"
+        placeholder="Email Address"
+        required
+        email
+      />
+
+      <small class="error-message"
+        *ngIf="emailField.invalid && emailField.touched">
+        <span *ngIf="emailField.errors?.['required']">
+          Email is required.
+        </span>
+        <span *ngIf="emailField.errors?.['email']">
+          Please enter a valid email address.
+        </span>
+      </small>
+
+      <!-- Password -->
+      <div class="password-wrapper">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          name="password"
+          [(ngModel)]="password"
+          #passwordField="ngModel"
+          placeholder="Password"
+          required
+          minlength="8"
+        />
+
+        <button
+          type="button"
+          class="toggle-password"
+          (click)="showPassword = !showPassword">
+          {{ showPassword ? 'Hide' : 'Show' }}
+        </button>
+      </div>
+
+      <small class="error-message"
+        *ngIf="passwordField.invalid && passwordField.touched">
+        <span *ngIf="passwordField.errors?.['required']">
+          Password is required.
+        </span>
+        <span *ngIf="passwordField.errors?.['minlength']">
+          Password must contain at least 8 characters.
+        </span>
+      </small>
+
+      <!-- Server Error -->
+      <p class="error-message" *ngIf="message">
+        {{ message }}
+      </p>
+
+      <!-- Login Button -->
+      <button type="submit" [disabled]="isLoading">
+        {{ isLoading ? 'Logging in...' : 'Login' }}
+      </button>
+
+    </form>
+
+    <!-- Forgot Password -->
+    <a routerLink="/forgot-password" class="forgot-link">
+      Forgot Password?
+    </a>
+
+    <!-- Signup -->
+    <p>
+      Don't have an account?
+      <a routerLink="/signup">Sign Up</a>
+    </p>
+
+  </div>
+</div>

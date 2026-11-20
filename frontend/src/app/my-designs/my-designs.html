@@ -1,0 +1,282 @@
+<div class="designs-container">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+
+    <div>
+      <button class="back-btn" routerLink="/dashboard">
+        ← Back
+      </button>
+
+      <p class="eyebrow">YOUR CREATIVE SPACE</p>
+
+      <h1>My <span>Designs</span></h1>
+
+      <p class="subtitle">
+        All your saved wall painting designs in one place.
+      </p>
+    </div>
+
+    <button class="refresh-btn" (click)="loadMyDesigns()">
+      ↻ Refresh
+    </button>
+
+  </div>
+
+
+  <!-- SEARCH AND FILTER -->
+  <div class="filter-section">
+
+    <input
+      type="text"
+      placeholder="Search designs by name..."
+      [(ngModel)]="searchText"
+      (keyup.enter)="searchDesigns()"
+    >
+
+    <button (click)="searchDesigns()">
+      🔍 Search
+    </button>
+
+    <input
+      type="text"
+      placeholder="Filter by color (example: #E9DCCB)"
+      [(ngModel)]="selectedColor"
+    >
+
+    <button (click)="filterByColor()">
+      Filter
+    </button>
+
+    <button
+      class="favorites-filter-btn"
+      [class.active]="showFavoritesOnly"
+      (click)="toggleFavoritesFilter()"
+    >
+      {{ showFavoritesOnly ? '❤️ Show All' : '♡ Favorites Only' }}
+    </button>
+
+    <button
+      class="clear-filter-btn"
+      (click)="searchText=''; selectedColor=''; showFavoritesOnly=false; loadMyDesigns()"
+    >
+      Clear
+    </button>
+
+  </div>
+
+
+  <!-- LOADING -->
+  <div class="message-box" *ngIf="loading">
+
+    <h3>Loading your designs...</h3>
+
+    <p>Please wait while we fetch your saved designs.</p>
+
+  </div>
+
+
+  <!-- ERROR -->
+  <div
+    class="message-box error-message"
+    *ngIf="!loading && errorMessage"
+  >
+
+    <h3>Something went wrong!</h3>
+
+    <p>{{ errorMessage }}</p>
+
+    <button (click)="loadMyDesigns()">
+      Try Again
+    </button>
+
+  </div>
+
+
+  <!-- EMPTY STATE -->
+  <div
+    class="empty-state"
+    *ngIf="!loading && !errorMessage && designs.length === 0"
+  >
+
+    <div class="empty-icon">🎨</div>
+
+    <h2>No Designs Found</h2>
+
+    <p>
+      No saved designs match your search.
+      Try changing your filters or create a new design!
+    </p>
+
+  </div>
+
+
+  <!-- DESIGNS GRID -->
+  <div
+    class="designs-grid"
+    *ngIf="!loading && !errorMessage && designs.length > 0"
+  >
+
+    <div class="design-card" *ngFor="let design of designs">
+
+      <!-- FAVORITE BUTTON -->
+      <button
+        class="favorite-btn"
+        [class.favorited]="design.isFavorite"
+        (click)="toggleFavorite(design)"
+        [title]="design.isFavorite ? 'Remove from Favorites' : 'Add to Favorites'"
+      >
+        {{ design.isFavorite ? '❤️' : '♡' }}
+      </button>
+
+
+      <!-- DESIGN IMAGES -->
+      <div class="design-images">
+
+        <div class="image-box">
+
+          <img
+            [src]="design.originalImage"
+            alt="Original Wall"
+          >
+
+          <span class="image-label">BEFORE</span>
+
+        </div>
+
+
+        <div class="image-box">
+
+          <img
+            [src]="design.paintedImage"
+            alt="Painted Wall"
+          >
+
+          <span class="image-label after-label">AFTER</span>
+
+        </div>
+
+      </div>
+
+
+      <!-- DESIGN DETAILS -->
+      <div class="design-details">
+
+        <h3>{{ design.designName }}</h3>
+
+        <div class="color-details">
+
+          <span
+            class="color-preview"
+            [style.background]="design.selectedColor"
+          ></span>
+
+          <span>{{ design.selectedColor }}</span>
+
+        </div>
+
+        <p class="design-date">
+          Saved on:
+          {{ design.createdAt | date:'dd MMM yyyy' }}
+        </p>
+
+
+        <!-- ACTION BUTTONS -->
+        <div class="design-actions">
+
+          <button
+            class="view-btn"
+            (click)="viewDesign(design)"
+          >
+            👁 View
+          </button>
+
+          <button
+            class="rename-btn"
+            (click)="renameDesign(design._id, design.designName)"
+          >
+            ✏ Rename
+          </button>
+
+          <button
+            class="delete-btn"
+            (click)="deleteDesign(design._id)"
+          >
+            🗑 Delete
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- DESIGN VIEW MODAL -->
+  <div
+    class="design-modal"
+    *ngIf="selectedDesign"
+    (click)="closeDesignView()"
+  >
+
+    <div
+      class="modal-content"
+      (click)="$event.stopPropagation()"
+    >
+
+      <button
+        class="modal-close-btn"
+        (click)="closeDesignView()"
+      >
+        ✕
+      </button>
+
+      <h2>{{ selectedDesign.designName }}</h2>
+
+      <p class="modal-color">
+        Selected Color: {{ selectedDesign.selectedColor }}
+      </p>
+
+
+      <div class="modal-images">
+
+        <div>
+          <h3>Before Painting</h3>
+
+          <img
+            [src]="selectedDesign.originalImage"
+            alt="Original Wall"
+          >
+        </div>
+
+
+        <div>
+          <h3>After Painting</h3>
+
+          <img
+            [src]="selectedDesign.paintedImage"
+            alt="Painted Wall"
+          >
+        </div>
+
+      </div>
+
+      <p class="design-date">
+        Saved on:
+        {{ selectedDesign.createdAt | date:'dd MMM yyyy' }}
+      </p>
+
+      <button
+        class="modal-close-action"
+        (click)="closeDesignView()"
+      >
+        Close
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

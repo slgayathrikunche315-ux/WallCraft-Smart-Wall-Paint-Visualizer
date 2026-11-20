@@ -1,0 +1,123 @@
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #e8eaf6, #fce4ec);
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  background: white;
+  padding: 40px;
+  border-radius: 18px;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.12);
+  text-align: center;
+}
+
+.login-card h1 {
+  color: #6c63ff;
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.login-card h2 {
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.login-card p {
+  color: #777;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.login-card input {
+  width: 100%;
+  padding: 13px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  box-sizing: border-box;
+  outline: none;
+}
+
+.login-card input:focus {
+  border-color: #6c63ff;
+}
+
+.login-card button {
+  width: 100%;
+  padding: 14px;
+  background: #6c63ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+.login-card button:hover {
+  background: #554bd8;
+}
+
+.login-card button:disabled {
+  background: #aaa;
+  cursor: not-allowed;
+}
+
+.login-card a {
+  color: #6c63ff;
+  text-decoration: none;
+  font-weight: bold;
+}
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-wrapper input {
+  width: 100%;
+  box-sizing: border-box;
+  padding-right: 65px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 13px;
+  width: auto !important;
+  padding: 5px 8px !important;
+  margin: 0 !important;
+  border: none;
+  background: transparent !important;
+  color: #6c63ff !important;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.error-message {
+  display: block;
+  color: #e53935;
+  font-size: 13px;
+  margin: 5px 0 10px;
+}
+.forgot-link {
+  display: block;
+  text-align: center;
+  margin: 15px 0;
+  color: #243b55;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.forgot-link:hover {
+  text-decoration: underline;
+}

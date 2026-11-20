@@ -1,0 +1,124 @@
+\<div class="signup-container">
+&#x20; \<div class="signup-card">
+
+```
+<h1>WallCraft</h1>
+<h2>Create Account</h2>
+<p>Join WallCraft and design your dream walls.</p>
+
+<form #signupForm="ngForm" (ngSubmit)="onSignup(signupForm)" novalidate>
+
+  <!-- Full Name -->
+  <input
+    type="text"
+    name="name"
+    [(ngModel)]="name"
+    #nameField="ngModel"
+    placeholder="Full Name"
+    required
+    minlength="3"
+  />
+
+  <small class="error-message"
+    *ngIf="nameField.invalid && nameField.touched">
+    <span *ngIf="nameField.errors?.['required']">
+      Full name is required.
+    </span>
+    <span *ngIf="nameField.errors?.['minlength']">
+      Name must contain at least 3 characters.
+    </span>
+  </small>
+
+  <!-- Email -->
+  <input
+    type="email"
+    name="email"
+    [(ngModel)]="email"
+    #emailField="ngModel"
+    placeholder="Email Address"
+    required
+    email
+  />
+
+  <small class="error-message"
+    *ngIf="emailField.invalid && emailField.touched">
+    <span *ngIf="emailField.errors?.['required']">
+      Email is required.
+    </span>
+    <span *ngIf="emailField.errors?.['email']">
+      Please enter a valid email address.
+    </span>
+  </small>
+
+  <!-- Password -->
+  <div class="password-wrapper">
+    <input
+      [type]="showPassword ? 'text' : 'password'"
+      name="password"
+      [(ngModel)]="password"
+      #passwordField="ngModel"
+      placeholder="Password (minimum 8 characters)"
+      required
+      minlength="8"
+    />
+
+    <button
+      type="button"
+      class="toggle-password"
+      (click)="showPassword = !showPassword">
+      {{ showPassword ? 'Hide' : 'Show' }}
+    </button>
+  </div>
+
+  <small class="error-message"
+    *ngIf="passwordField.invalid && passwordField.touched">
+    <span *ngIf="passwordField.errors?.['required']">
+      Password is required.
+    </span>
+    <span *ngIf="passwordField.errors?.['minlength']">
+      Password must contain at least 8 characters.
+    </span>
+  </small>
+
+  <!-- Confirm Password -->
+  <div class="password-wrapper">
+    <input
+      [type]="showConfirmPassword ? 'text' : 'password'"
+      name="confirmPassword"
+      [(ngModel)]="confirmPassword"
+      #confirmPasswordField="ngModel"
+      placeholder="Confirm Password"
+      required
+    />
+
+    <button
+      type="button"
+      class="toggle-password"
+      (click)="showConfirmPassword = !showConfirmPassword">
+      {{ showConfirmPassword ? 'Hide' : 'Show' }}
+    </button>
+  </div>
+
+  <small class="error-message"
+    *ngIf="confirmPasswordField.touched && confirmPassword !== password">
+    Passwords do not match.
+  </small>
+
+  <!-- Server Error Message -->
+  <p class="error-message" *ngIf="message">
+    {{ message }}
+  </p>
+
+  <button type="submit" [disabled]="isLoading">
+    {{ isLoading ? 'Creating Account...' : 'Sign Up' }}
+  </button>
+
+</form>
+
+<p>
+  Already have an account?
+  <a routerLink="/login">Login</a>
+</p>
+```
+
+&#x20; \</div> \</div>
